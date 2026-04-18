@@ -1,13 +1,12 @@
 export type NodeType = "DataSource" | "Transform" | "Model";
+export type DataType = "Dataset" | "Model" | "Any";
 
-type NodeData = {
+export type NodeData = {
   label: string;
   inputs?: Record<string, HandleParam>;
   outputs?: Record<string, HandleParam>;
   nodeType: NodeType;
 };
-
-type DataType = "Dataset" | "Model" | "Any";
 
 type HandleParam = {
   type: DataType;
