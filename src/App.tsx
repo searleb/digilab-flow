@@ -38,7 +38,14 @@ function App() {
   };
 
   const handleOnConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    (params: Connection) =>
+      setEdges((eds) => {
+        // Each input handle only accepts one connection — remove any existing
+        // edge on the same target handle before adding the new one.
+        const filterEdges = eds.filter((edge) => edge.target !== params.target);
+
+        return addEdge(params, filterEdges);
+      }),
     [setEdges],
   );
 
@@ -50,13 +57,8 @@ function App() {
       const targetInputDataType = targetNode?.data.inputs?.input.type;
 
       if (!sourceNode || !targetNode) return false;
-      // Any type (if you implement it) can connect to any other type
-      if (sourceOutputDataType === "Any" || targetInputDataType === "Any") {
+      if (sourceOutputDataType === "Any" || targetInputDataType === "Any")
         return true;
-      }
-      // Dataset outputs can only connect to Dataset inputs
-      // Model outputs can only connect to Model inputs
-      // !! The TS definitions state a Model has a Dataset input and Model output though so I don't have any Model to Model nodes as the validation rules suggest.
       return sourceOutputDataType === targetInputDataType;
     },
     [nodes],
