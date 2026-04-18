@@ -15,6 +15,7 @@ import { Button } from "./components/ui/button";
 import type { NodeType } from "./types";
 import { useCallback } from "react";
 import { generateNode } from "./lib/generateNode";
+import { toast } from "sonner";
 
 function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -56,9 +57,9 @@ function App() {
       const sourceOutputDataType = sourceNode?.data.outputs?.output.type;
       const targetInputDataType = targetNode?.data.inputs?.input.type;
 
-      if (!sourceNode || !targetNode) return false;
-      if (sourceOutputDataType === "Any" || targetInputDataType === "Any")
+      if (sourceOutputDataType === "Any" || targetInputDataType === "Any") {
         return true;
+      }
       return sourceOutputDataType === targetInputDataType;
     },
     [nodes],
@@ -73,6 +74,11 @@ function App() {
         edges={edges}
         fitView
         onConnect={handleOnConnect}
+        onConnectEnd={(_, connectionState) => {
+          if (!connectionState.isValid) {
+            toast.error("This connection cannot be made");
+          }
+        }}
         isValidConnection={handleValidateConnection}
       >
         <Panel position="top-right">
