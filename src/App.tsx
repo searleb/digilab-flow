@@ -4,14 +4,19 @@ import {
   Controls,
   useNodesState,
   Panel,
+  addEdge,
+  useEdgesState,
+  type Connection,
 } from "@xyflow/react";
 import { initialEdges } from "./data/initial-edges";
 import { initialNodes } from "./data/initial-nodes";
 import { Button } from "./components/ui/button";
 import type { NodeType } from "./types";
+import { useCallback } from "react";
 
 function App() {
   const [nodes, setNodes] = useNodesState(initialNodes);
+  const [edges, setEdges] = useEdgesState(initialEdges);
 
   const handleAddNewNode = (nodeType: NodeType) => {
     setNodes((currentNodes) => {
@@ -34,9 +39,19 @@ function App() {
     });
   };
 
+  const handleOnConnect = useCallback(
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges],
+  );
+
   return (
     <div className="h-dvh">
-      <ReactFlow nodes={nodes} edges={initialEdges} fitView>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        fitView
+        onConnect={handleOnConnect}
+      >
         <Panel position="top-right">
           <Button size="lg" onClick={() => handleAddNewNode("DataSource")}>
             Add DataSource Node
