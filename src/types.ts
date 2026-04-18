@@ -1,8 +1,10 @@
+export type NodeType = "DataSource" | "Transform" | "Model";
+
 type NodeData = {
   label: string;
   inputs?: Record<string, HandleParam>;
   outputs?: Record<string, HandleParam>;
-  nodeType: "DataSource" | "Transform" | "Model";
+  nodeType: NodeType;
 };
 
 type DataType = "Dataset" | "Model" | "Any";

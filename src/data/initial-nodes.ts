@@ -24,7 +24,7 @@ export const initialNodes: DigiNode[] = [
       },
       nodeType: "Transform",
     },
-    position: { x: 350, y: 100 },
+    position: { x: 250, y: 100 },
   },
   {
     id: "n3",
