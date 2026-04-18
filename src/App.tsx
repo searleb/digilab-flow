@@ -1,8 +1,15 @@
+import { ReactFlow, Background, Controls } from "@xyflow/react";
+import { initialEdges } from "./data/initial-edges";
+import { initialNodes } from "./data/initial-nodes";
+
 function App() {
   return (
-    <main className="p-8">
-      <h1 className="text-2xl">DigiFlow</h1>
-    </main>
+    <div className="h-dvh">
+      <ReactFlow nodes={initialNodes} edges={initialEdges} fitView>
+        <Background />
+        <Controls />
+      </ReactFlow>
+    </div>
   );
 }
 
