@@ -16,6 +16,7 @@ import type { NodeType } from "./types";
 import { useCallback } from "react";
 import { generateNode } from "./lib/generateNode";
 import { toast } from "sonner";
+import { nodeTypes } from "./components/custom-nodes";
 
 function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -72,6 +73,7 @@ function App() {
   return (
     <div className="h-dvh">
       <ReactFlow
+        nodeTypes={nodeTypes}
         nodes={nodes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}

@@ -12,7 +12,7 @@ export const generateNode = ({
   index: number;
 }): Node<NodeData> => ({
   id: `n${index}`, // this is ok for a prototype but could produce duplicate ID's when deleting a node for example, upgrade to a uuid.
-  type: nodeType === "DataSource" ? "input" : "default",
+  type: nodeType,
   position: {
     x: lastNode ? lastNode.position.x + 50 : 40,
     y: lastNode ? lastNode.position.y + 80 : 40,

@@ -4,7 +4,7 @@ import type { NodeData } from "../types";
 export const initialNodes: Node<NodeData>[] = [
   {
     id: "n1",
-    type: "input",
+    type: "DataSource",
     data: {
       label: "Data Source",
       outputs: {
@@ -16,7 +16,7 @@ export const initialNodes: Node<NodeData>[] = [
   },
   {
     id: "n2",
-    type: "default",
+    type: "Transform",
     data: {
       label: "Transform",
       inputs: { input: { type: "Dataset", label: "Input" } },
@@ -29,7 +29,7 @@ export const initialNodes: Node<NodeData>[] = [
   },
   {
     id: "n3",
-    type: "default",
+    type: "Model",
     data: {
       label: "Model",
       inputs: { input: { type: "Dataset", label: "Input" } },
