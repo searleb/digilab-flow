@@ -1,6 +1,7 @@
-import type { DigiNode } from "../types";
+import type { Node } from "@xyflow/react";
+import type { NodeData } from "../types";
 
-export const initialNodes: DigiNode[] = [
+export const initialNodes: Node<NodeData>[] = [
   {
     id: "n1",
     type: "input",

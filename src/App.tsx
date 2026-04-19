@@ -21,22 +21,25 @@ function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const handleAddNewNode = (nodeType: NodeType) => {
-    setNodes((currentNodes) => {
-      const lastNode = currentNodes.findLast(() => true);
+  const handleAddNewNode = useCallback(
+    (nodeType: NodeType) => {
+      setNodes((currentNodes) => {
+        const lastNode = currentNodes.findLast(() => true);
 
-      return [
-        ...currentNodes,
-        {
-          ...generateNode({
-            nodeType,
-            lastNode,
-            index: currentNodes.length + 1,
-          }),
-        },
-      ];
-    });
-  };
+        return [
+          ...currentNodes,
+          {
+            ...generateNode({
+              nodeType,
+              lastNode,
+              index: currentNodes.length + 1,
+            }),
+          },
+        ];
+      });
+    },
+    [setNodes],
+  );
 
   const handleOnConnect = useCallback(
     (params: Connection) =>
@@ -44,10 +47,11 @@ function App() {
         // Each input handle only accepts one connection — remove any existing
         // edge on the same target handle before adding the new one.
         const filterEdges = eds.filter((edge) => edge.target !== params.target);
+        const label = nodes.find((n) => n.id === params.source)?.data.outputs?.output.type;
 
-        return addEdge(params, filterEdges);
+        return addEdge({ ...params, label, type: "smoothstep" }, filterEdges);
       }),
-    [setEdges],
+    [setEdges, nodes],
   );
 
   const handleValidateConnection = useCallback(
@@ -75,7 +79,8 @@ function App() {
         fitView
         onConnect={handleOnConnect}
         onConnectEnd={(_, connectionState) => {
-          if (!connectionState.isValid) {
+          // If connection is invalid and a node was targeted - would fire by just aborting a connection
+          if (!connectionState.isValid && connectionState.toNode) {
             toast.error("This connection cannot be made");
           }
         }}
